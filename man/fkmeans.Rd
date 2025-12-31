@@ -26,7 +26,7 @@ fkmeans(
   t,
   sync_map = c("auc", "fr"),
   sync_args,
-  alpha_scale,
+  alpha_scale = 1,
   k,
   itermax = 10,
   nstart = 1,

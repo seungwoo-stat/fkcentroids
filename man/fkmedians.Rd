@@ -16,7 +16,7 @@ fkmedians(
   t,
   sync_map = c("auc", "fr"),
   sync_args,
-  alpha_scale,
+  alpha_scale = 1,
   k,
   niter = 20,
   nstart = 1
