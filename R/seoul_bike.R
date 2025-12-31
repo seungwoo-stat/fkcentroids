@@ -2,7 +2,7 @@
 #'
 #' @description
 #' Functions generated from Seoul's public bike rental records collected
-#' between 00:00 and 24:00 on April 1, 2025 (Tuesday). Each function represents
+#' between 00:00 and 24:00 on April 1st, 2025 (Tuesday). Each function represents
 #' a single rental station that has at least 24 rentals over the day.
 #'
 #' Each function is constructed through a two-step process:
@@ -17,12 +17,13 @@
 #' @usage data(seoul_bike)
 #' @format A list of length 2 containing the following components:
 #' \itemize{
-#'   \item{\code{Ytilde}}: A \ifelse{html}{\out{73 × 1784}}{{\eqn{73\times 1784}}}
+#'   \item{\code{Ytilde}}: A \ifelse{html}{73\eqn{\times}1784}{{\eqn{73\times 1784}}}
 #'   matrix whose <i>i</i>th column
 #'   contains the values of the <i>i</i>th observed function (bike station)
 #'   evaluated at the time points \code{x}.
 #'   \item{\code{x}}: A length 73 numeric vector representing time in hours at
-#'   20-minute intervals. For example, 18.333 corresponds to 6:20 p.m.
+#'   20-minute intervals. For example, 18.333 corresponds to 6:20 p.m., i.e.,
+#'   \code{seq(0, 1, length.out = 73)}.
 #' }
 #'
 #' @source Seoul Open Data Plaza :

@@ -14,21 +14,28 @@ fr_sync(Ytilde, x, t, template)
 \method{plot}{syncftn}(x, phase_mode = c("raw", "clrv"), ...)
 }
 \arguments{
-\item{Ytilde}{A \if{html}{\out{<i>}}m\if{html}{\out{</i>}}\eqn{\times}\if{html}{\out{<i>}}n\if{html}{\out{</i>}} matrix whose \if{html}{\out{<i>}}i\if{html}{\out{</i>}}th column
-contains the values of the \if{html}{\out{<i>}}i\if{html}{\out{</i>}}th observed function evaluated at the
-\if{html}{\out{<i>}}m\if{html}{\out{</i>}} time points \code{x}.}
+\item{Ytilde}{A \ifelse{html}{\out{<i>m</i>}\eqn{\times}\out{<i>n</i>}}{\eqn{m\times n}}
+matrix whose \ifelse{html}{\out{<i>i</i>}}{\eqn{i}}th column
+contains the values of the \ifelse{html}{\out{<i>i</i>}}{\eqn{i}}th observed function evaluated at the
+\ifelse{html}{\out{<i>m</i>}}{\eqn{m}} time points \code{x}.}
 
-\item{x}{A \code{syncftn} object, obtained as a result of the functions
-\code{auc_sync()} or \code{fr_sync()}.}
+\item{x}{A numeric vector or a \code{syncftn} object, depending on the function.
+\itemize{
+\item{\code{auc_sync()} and \code{fr_sync()}}: A numeric vector of length
+\ifelse{html}{\out{<i>m</i>}}{\eqn{m}} giving the observed time points
+corresponding to \code{Ytilde}. \item{\code{plot.syncftn()}}: A
+\code{syncftn} object, obtained as a result of the function
+\code{auc_sync()} or \code{fr_sync()}.
+}}
 
-\item{t}{A numeric vector of length \if{html}{\out{<i>}}T\if{html}{\out{</i>}} giving the time points at which
+\item{t}{A numeric vector of length \ifelse{html}{\out{<i>T</i>}}{\eqn{T}} giving the time points at which
 the phase and amplitude components are evaluated. This vector must start at
 0 and end at 1.}
 
 \item{p}{A numeric value specifying the power parameter of the AUC
 time-synchronizing mapping. The default is \code{p = 1}.}
 
-\item{template}{A numeric vector of length \if{html}{\out{<i>}}T\if{html}{\out{</i>}} giving the template
+\item{template}{A numeric vector of length \ifelse{html}{\out{<i>T</i>}}{\eqn{T}} giving the template
 function value evaluated at the time points \code{t}.}
 
 \item{phase_mode}{A character string.
@@ -44,12 +51,10 @@ function value evaluated at the time points \code{t}.}
 \code{auc_sync()} and \code{fr_sync()} returns a object of class
 \code{syncftn}, which is a list containing the following components,
 obtained from AUC synchronization and FR synchronization, respectively:
-\itemize{
-\item{\code{X}}: A \if{html}{\out{<i>}}T\if{html}{\out{</i>}}\eqn{\times}\if{html}{\out{<i>}}n\if{html}{\out{</i>}} matrix of phase components evaluated
-at the time points \code{t}.
-\item{\code{Y}}: A \if{html}{\out{<i>}}T\if{html}{\out{</i>}}\eqn{\times}\if{html}{\out{<i>}}n\if{html}{\out{</i>}} matrix of amplitude components
-evaluated at the time points \code{t}.
-}
+\item{\code{X}}{A \ifelse{html}{\out{<i>T</i>}\eqn{\times}\out{<i>n</i>}}{\eqn{T\times n}} matrix of phase components evaluated
+at the time points \code{t}.}
+\item{\code{Y}}{A \ifelse{html}{\out{<i>T</i>}\eqn{\times}\out{<i>n</i>}}{\eqn{T\times n}} matrix of amplitude components
+evaluated at the time points \code{t}.}
 
 \code{plot.syncftn()} plots phase and amplitude components of each
 observed function.
@@ -96,15 +101,15 @@ lines(t, template, col = 2)
 }
 \references{
 Kang S. and Oh H.-S. (2026) \dQuote{Multiview representation and clustering of
-functional data,} \if{html}{\out{<i>}}Unpublished Manuscript\if{html}{\out{</i>}}.
+functional data,} \emph{Unpublished Manuscript}.
 
 Liu X. and Müller H.-G. (2004).\dQuote{"Functional convex averaging and
-synchronization for time-warped random curve,} \if{html}{\out{<i>}}Journal of the American
-Statistical Association\if{html}{\out{</i>}}, \if{html}{\out{<b>}}99\if{html}{\out{</b>}}(467), 687--699.
+synchronization for time-warped random curve,} \emph{Journal of the American
+Statistical Association}, \strong{99}(467), 687--699.
 
 Srivastava A., Wu W., Kurtek S., Klassen E., and Marron J. S. (2011)
-\dQuote{Registration of functional data using Fisher--Rao metric,} \if{html}{\out{<i>}}arXiv preprint
-arXiv:1103.3817\if{html}{\out{</i>}}.
+\dQuote{Registration of functional data using Fisher--Rao metric,} \emph{arXiv preprint
+arXiv:1103.3817}.
 }
 \seealso{
 \code{\link[fdasrvf:pair_align_functions]{fdasrvf::pair_align_functions()}} for FR synchronization method.

@@ -6,13 +6,17 @@ Authors@R: c(
   comment=c(ORCID="0000-0001-8082-0794")),
   person("Hee-Seok", "Oh", email = "heeseok@stats.snu.ac.kr", role = c("aut")))
 Description: Cluster functional data using phase and amplitude components of each function. By weighting phase and amplitude variation differently, clustering results can be obtained from multiple perspectives. Routines for synchronization, k-means clustering, and k-medians clustering are provided.
+URL: https://github.com/seungwoo-stat/fkcentroids
+BugReports: https://github.com/seungwoo-stat/fkcentroids/issues
 License: GPL (>= 3)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
 Imports: 
     fdasrvf,
+    graphics,
     Kmedians,
+    stats,
     withr
 Depends: 
     R (>= 3.5)

@@ -23,7 +23,11 @@ Functional K-Centroids Clustering Using Phase and Amplitude Components
 
 ## What is fkcentroids?
 
-...
+`fkcentroids` aims to conduct functional *k*-means and *k*-medians clustering by jointly considering the phase and amplitude variations of functions. The routines first synchronizes each function, thereby separating phase and amplitude components. For the phase components, a
+Bayes Hilbert space structure is imposed to enable effective analysis,
+while for the amplitude components, the usual *L*<sup>2</sup> geometry is employed. Routines for function synchronization, as well as clustering
+procedures based on the extracted phase and amplitude components,
+are provided.
 
 ## How can I get fkcentroids?
 
@@ -43,22 +47,23 @@ library(fkcentroids)
 
 ## How do I use it?
 
-...
+Using the Berkeley growth curve functions from the **fda** package, the functions can be clustered using `fkmeans()` (or `fkmedians()`) after decomposing them into their phase and amplitude components.
 
 ```{r example}
 library(fkcentroids)
-# examples
+library(fda)
+data(growth)
+Ytilde <- cbind(growth$hgtm, growth$hgtf)
+x <- growth$age
+fkmeans(Ytilde, x, t = seq(0, 1, length.out = 100),
+        sync_map = "auc", sync_args = 1, k = 2, nstart = 10)
 ```
 
-...
-
-Refer to the package documentation for an overview of the support range for each function.
+Refer to the package documentation for details.
 
 ``` r
 ?`fkcentroids-package`
 ```
-
-Moreover, one dataset ...
 
 ## Where can I learn more?
 

@@ -37,14 +37,14 @@ fkmeans(
 \method{fitted}{fkmeans}(object, method = c("centers", "classes"), ...)
 }
 \arguments{
-\item{Xclrv}{A (\if{html}{\out{<i>}}T\if{html}{\out{</i>}}--1)\eqn{\times}\if{html}{\out{<i>}}n\if{html}{\out{</i>}} matrix of centered log-ratio
+\item{Xclrv}{A \ifelse{html}{(\out{<i>T</i>}--1)\eqn{\times}\out{<i>n</i>}}{\eqn{(T-1)\times n}} matrix of centered log-ratio
 velocity transformed phase components evaluated over the intervals defined
 by the time points \code{t}. Refer to \code{\link[=X2Xclrv]{X2Xclrv()}}.}
 
-\item{Y}{A \if{html}{\out{<i>}}T\if{html}{\out{</i>}}\eqn{\times}\if{html}{\out{<i>}}n\if{html}{\out{</i>}} matrix of amplitude components
+\item{Y}{A \ifelse{html}{\out{<i>T</i>}\eqn{\times}\out{<i>n</i>}}{\eqn{T\times n}} matrix of amplitude components
 evaluated at the time points \code{t}.}
 
-\item{t}{A numeric vector of length \if{html}{\out{<i>}}T\if{html}{\out{</i>}} giving the time points at which
+\item{t}{A numeric vector of length \ifelse{html}{\out{<i>T</i>}}{\eqn{T}} giving the time points at which
 the phase and amplitude components are evaluated. This vector must start at
 0 and end at 1.}
 
@@ -55,21 +55,22 @@ multiview parameter \eqn{\alpha} is set to \eqn{\alpha = \alpha_0 \times
 \item{k}{A numeric indicating the number of clusters.}
 
 \item{itermax}{A numeric indicating the maximum number of iterations allowed
-in the \eqn{k}-means algorithm. By default, set to 10.}
+in the \ifelse{html}{\out{<i>k</i>}}{\eqn{k}}-means algorithm. By default, set to 10.}
 
 \item{nstart}{A numeric indicating the number of initial sets. By default, set to 1.}
 
-\item{algorithm}{A character string indicating the algorithm for \eqn{k}-means
+\item{algorithm}{A character string indicating the algorithm for \ifelse{html}{\out{<i>k</i>}}{\eqn{k}}-means
 clustering. \code{"Hartigan-Wong"} algorithm is set as default.}
 
 \item{trace}{A boolean. If \code{TRUE} and \code{algorithm ==
 "Hartigan-Wong"}, it prints tracing information on the console.}
 
-\item{Ytilde}{A \if{html}{\out{<i>}}m\if{html}{\out{</i>}}\eqn{\times}\if{html}{\out{<i>}}n\if{html}{\out{</i>}} matrix whose \if{html}{\out{<i>}}i\if{html}{\out{</i>}}th column
-contains the values of the \if{html}{\out{<i>}}i\if{html}{\out{</i>}}th observed function evaluated at the
-\if{html}{\out{<i>}}m\if{html}{\out{</i>}} time points \code{x}.}
+\item{Ytilde}{A \ifelse{html}{\out{<i>m</i>}\eqn{\times}\out{<i>n</i>}}{\eqn{m\times n}}
+matrix whose \ifelse{html}{\out{<i>i</i>}}{\eqn{i}}th column
+contains the values of the \ifelse{html}{\out{<i>i</i>}}{\eqn{i}}th observed function evaluated at the
+\ifelse{html}{\out{<i>m</i>}}{\eqn{m}} time points \code{x}.}
 
-\item{x}{A numeric vector of length \if{html}{\out{<i>}}m\if{html}{\out{</i>}} giving the observed time points
+\item{x}{A numeric vector of length \ifelse{html}{\out{<i>m</i>}}{\eqn{m}} giving the observed time points
 corresponding to \code{Ytilde}.}
 
 \item{sync_map}{A character string. If \code{"auc"}, AUC time-synchronizing
@@ -77,37 +78,35 @@ mapping is used. If \code{"fr"}, FR time-synchronizing mapping is used.
 Refer to \code{\link[=auc_sync]{auc_sync()}} and \code{\link[=fr_sync]{fr_sync()}}.}
 
 \item{sync_args}{If \code{sync_map == "auc"} it represents a numeric
-indicating the parameter \eqn{p} used in AUC time-synchronizing mapping. If
+indicating the parameter \ifelse{html}{\out{<i>p</i>}}{\eqn{p}} used in AUC time-synchronizing mapping. If
 \code{sync_map == "fr"} it represent the template function used in FR
 time-synchronizing mapping.}
 
 \item{...}{Not used.}
 
 \item{object}{A \code{fkmeans} object, obtained as a result of the function
-\code{fkmeans()}.}
+\code{fkmeans_pre()} or \code{fkmeans()}.}
 
 \item{method}{A character string.
 \itemize{
-\item centers: Returns cluster centers for each curve.
-\item classes: Returns a vector of class assignments.
+\item \code{"centers"}: Returns cluster centers for each curve.
+\item \code{"classes"}: Returns a vector of class assignments.
 }}
 }
 \value{
 \code{fkmeans_pre()} and \code{fkmeans()} return an object of class
 \code{fkmeans}, which is a list containing the following components:
-\itemize{
-\item{\code{cluster}}: A vector of integers (from \code{1:k}) indicating the cluster to which each function is allocated.
-\item{\code{centers.Xclrv}}: A (\if{html}{\out{<i>}}T\if{html}{\out{</i>}}--1)\eqn{\times}\if{html}{\out{<i>}}k\if{html}{\out{</i>}} matrix of phase components' cluster centers (centered log-ratio velocity transformed).
-\item{\code{centers.Y}}: A \if{html}{\out{<i>}}T\if{html}{\out{</i>}}\eqn{\times}\if{html}{\out{<i>}}k\if{html}{\out{</i>}} matrix of amplitude components' cluster centers.
-\item{\code{totss}}: The total sum of squares.
-\item{\code{withinss}}: A vector of within-cluster sum of squares, one component per cluster.
-\item{\code{tot.withinss}}: Total within-cluster sum of squares, i.e., \code{sum(withinss)}.
-\item{\code{betweenss}}: The between-cluster sum of squares, i.e. \code{totss-tot.withinss}.
-\item{\code{size}}: The number of functions in each cluster.
-\item{\code{iter}}: The number of (outer) iterations.
-\item{\code{ifault}}: Indicator of a possible algorithm problem; refer to \code{\link[stats:kmeans]{stats::kmeans()}}.
-\item{\code{alpha0}}: The reference value \eqn{\alpha_0}.
-}
+\item{\code{cluster}}{A vector of integers (from \code{1:k}) indicating the cluster to which each function is allocated.}
+\item{\code{centers.Xclrv}}{A \ifelse{html}{(\out{<i>T</i>}--1)\eqn{\times}\out{<i>k</i>}}{\eqn{(T-1)\times k}} matrix of phase components' cluster centers (centered log-ratio velocity transformed).}
+\item{\code{centers.Y}}{A \ifelse{html}{\out{<i>T</i>}\eqn{\times}\out{<i>k</i>}}{\eqn{T\times k}} matrix of amplitude components' cluster centers.}
+\item{\code{totss}}{The total sum of squares.}
+\item{\code{withinss}}{A vector of within-cluster sum of squares, one component per cluster.}
+\item{\code{tot.withinss}}{Total within-cluster sum of squares, i.e., \code{sum(withinss)}.}
+\item{\code{betweenss}}{The between-cluster sum of squares, i.e., \code{totss - tot.withinss}.}
+\item{\code{size}}{The number of functions in each cluster.}
+\item{\code{iter}}{The number of (outer) iterations.}
+\item{\code{ifault}}{Indicator of a possible algorithm problem; refer to \code{\link[stats:kmeans]{stats::kmeans()}}.}
+\item{\code{alpha0}}{The reference value \eqn{\alpha_0}.}
 
 \code{print()} and \code{fitted()} methods are supported for the
 object of class \code{fkmeans}. \code{fitted.fkmeans()} with \code{method =
@@ -115,7 +114,7 @@ object of class \code{fkmeans}. \code{fitted.fkmeans()} with \code{method =
 \code{method = "classes"} returns a vector of class assignments.
 }
 \description{
-Conducts \eqn{k}-means clustering by jointly considering phase and amplitude
+Conducts \ifelse{html}{\out{<i>k</i>}}{\eqn{k}}-means clustering by jointly considering phase and amplitude
 variation. The relative importance of the two components can be explicitly
 controlled by the user via the multiview parameter \eqn{\alpha}. See the
 details below.
@@ -131,14 +130,19 @@ phase and amplitude components. For two functions with components
 \right\}^{1/2},
 }
 where \eqn{\|\cdot\|_2} denotes the usual \eqn{\mathbb{L}^2} norm and
-\eqn{\alpha \ge 0} is the multiview parameter. Based on this distance,
-\eqn{k}-means clustering is performed.
+\eqn{\alpha \ge 0} is the multiview parameter. For the \code{clrv}
+transformation, refer to \code{\link[=X2Xclrv]{X2Xclrv()}}.
+
+Based on this distance,
+\ifelse{html}{\out{<i>k</i>}}{\eqn{k}}-means clustering is performed.
 
 A reference value \eqn{\alpha_0}, which serves as a baseline around which
 \eqn{\alpha} may be varied, is selected as follows. The value \eqn{\alpha_0}
 is defined as the ratio of the total sum of squares of the amplitude
-components to that of the phase components. See the documentation for
-\code{\link[stats:kmeans]{stats::kmeans()}} and Kang and Oh (2026) for further details.
+components to that of the phase components.
+
+See the documentation for \code{\link[stats:kmeans]{stats::kmeans()}} and Kang and Oh (2026) for
+further details.
 }
 \examples{
 t <- seq(0, 1, length.out = 100)
@@ -150,11 +154,11 @@ fkmeans(seoul_bike$Ytilde[,1:10], seoul_bike$x, t, sync_map = "auc",
 }
 \references{
 Kang S. and Oh H.-S. (2026) \dQuote{Multiview representation and clustering of
-functional data,} \if{html}{\out{<i>}}Unpublished Manuscript\if{html}{\out{</i>}}.
+functional data,} \emph{Unpublished Manuscript}.
 }
 \seealso{
-\code{\link[stats:kmeans]{stats::kmeans()}} for multivariate \eqn{k}-means clustering.
-\code{\link[=fkmedians_pre]{fkmedians_pre()}} and \code{\link[=fkmedians]{fkmedians()}} for robust functional \eqn{k}-medians
+\code{\link[stats:kmeans]{stats::kmeans()}} for multivariate \ifelse{html}{\out{<i>k</i>}}{\eqn{k}}-means clustering.
+\code{\link[=fkmedians_pre]{fkmedians_pre()}} and \code{\link[=fkmedians]{fkmedians()}} for robust functional \ifelse{html}{\out{<i>k</i>}}{\eqn{k}}-medians
 clustering. \code{\link[=auc_sync]{auc_sync()}} and \code{\link[=fr_sync]{fr_sync()}} for time-synchronizing mappings.
 \code{\link[=X2Xclrv]{X2Xclrv()}} for centered log-ratio velocity transformation.
 }

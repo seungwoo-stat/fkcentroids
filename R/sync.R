@@ -29,12 +29,19 @@
 #' \varphi_{\tilde{Y}}^{-1})(t)} for \eqn{t\in[0,1]}. For further details, see
 #' Srivastava et al. (2011) and Kang and Oh (2026).
 #'
-#' @param Ytilde A <i>m</i>\eqn{\times}<i>n</i> matrix whose <i>i</i>th column
-#'   contains the values of the <i>i</i>th observed function evaluated at the
-#'   <i>m</i> time points \code{x}.
-#' @param x A numeric vector of length <i>m</i> giving the observed time points
-#'   corresponding to \code{Ytilde}.
-#' @param t A numeric vector of length <i>T</i> giving the time points at which
+#' @param Ytilde A \ifelse{html}{\out{<i>m</i>}\eqn{\times}\out{<i>n</i>}}{\eqn{m\times n}}
+#'   matrix whose \ifelse{html}{\out{<i>i</i>}}{\eqn{i}}th column
+#'   contains the values of the \ifelse{html}{\out{<i>i</i>}}{\eqn{i}}th observed function evaluated at the
+#'   \ifelse{html}{\out{<i>m</i>}}{\eqn{m}} time points \code{x}.
+#' @param x A numeric vector or a \code{syncftn} object, depending on the function.
+#' \itemize{
+#'  \item{\code{auc_sync()} and \code{fr_sync()}}: A numeric vector of length
+#'  \ifelse{html}{\out{<i>m</i>}}{\eqn{m}} giving the observed time points
+#'  corresponding to \code{Ytilde}. \item{\code{plot.syncftn()}}: A
+#'  \code{syncftn} object, obtained as a result of the function
+#'  \code{auc_sync()} or \code{fr_sync()}.
+#' }
+#' @param t A numeric vector of length \ifelse{html}{\out{<i>T</i>}}{\eqn{T}} giving the time points at which
 #'   the phase and amplitude components are evaluated. This vector must start at
 #'   0 and end at 1.
 #' @param p A numeric value specifying the power parameter of the AUC
@@ -43,23 +50,21 @@
 #' @return \code{auc_sync()} and \code{fr_sync()} returns a object of class
 #'   \code{syncftn}, which is a list containing the following components,
 #'   obtained from AUC synchronization and FR synchronization, respectively:
-#' \itemize{
-#'   \item{\code{X}}: A <i>T</i>\eqn{\times}<i>n</i> matrix of phase components evaluated
-#'     at the time points \code{t}.
-#'   \item{\code{Y}}: A <i>T</i>\eqn{\times}<i>n</i> matrix of amplitude components
-#'     evaluated at the time points \code{t}.
-#' }
+#'   \item{\code{X}}{A \ifelse{html}{\out{<i>T</i>}\eqn{\times}\out{<i>n</i>}}{\eqn{T\times n}} matrix of phase components evaluated
+#'     at the time points \code{t}.}
+#'   \item{\code{Y}}{A \ifelse{html}{\out{<i>T</i>}\eqn{\times}\out{<i>n</i>}}{\eqn{T\times n}} matrix of amplitude components
+#'     evaluated at the time points \code{t}.}
 #'
 #' @references Kang S. and Oh H.-S. (2026) \dQuote{Multiview representation and clustering of
-#' functional data,} <i>Unpublished Manuscript</i>.
+#' functional data,} \emph{Unpublished Manuscript}.
 #'
 #' Liu X. and Müller H.-G. (2004).\dQuote{"Functional convex averaging and
-#' synchronization for time-warped random curve,} <i>Journal of the American
-#' Statistical Association</i>, <b>99</b>(467), 687--699.
+#' synchronization for time-warped random curve,} \emph{Journal of the American
+#' Statistical Association}, \strong{99}(467), 687--699.
 #'
 #' Srivastava A., Wu W., Kurtek S., Klassen E., and Marron J. S. (2011)
-#' \dQuote{Registration of functional data using Fisher--Rao metric,} <i>arXiv preprint
-#' arXiv:1103.3817</i>.
+#' \dQuote{Registration of functional data using Fisher--Rao metric,} \emph{arXiv preprint
+#' arXiv:1103.3817}.
 #'
 #' @seealso [fdasrvf::pair_align_functions()] for FR synchronization method.
 #'   [X2Xclrv()] for centered log-ratio velocity transformation.  [fkmeans()]
@@ -96,7 +101,7 @@ auc_sync <- function(Ytilde, x, t, p = 1){
 
 #' @name syncftn
 #'
-#' @param template A numeric vector of length <i>T</i> giving the template
+#' @param template A numeric vector of length \ifelse{html}{\out{<i>T</i>}}{\eqn{T}} giving the template
 #'   function value evaluated at the time points \code{t}.
 #'
 #' @export
@@ -118,8 +123,6 @@ fr_sync <- function(Ytilde, x, t, template){
 #' @name syncftn
 #' @aliases plot.syncftn
 #'
-#' @param x A \code{syncftn} object, obtained as a result of the functions
-#'   \code{auc_sync()} or \code{fr_sync()}.
 #' @param phase_mode A character string.
 #'  * `raw` (the default): Plots phase components in their original form.
 #'  * `clrv`: Plots phase components after centered log-ratio velocity transformation. Refer to [X2Xclrv()].

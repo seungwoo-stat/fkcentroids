@@ -18,10 +18,10 @@ X2Xclrv(X, t)
 \arguments{
 \item{X}{A matrix representing phase components, or an object of class
 \code{syncftn}. If a matrix is provided, it must be a
-\if{html}{\out{<i>}}T\if{html}{\out{</i>}}\eqn{\times}\if{html}{\out{<i>}}n\if{html}{\out{</i>}} matrix of \if{html}{\out{<i>}}n\if{html}{\out{</i>}} phase components evaluated
+\ifelse{html}{\out{<i>T</i>}\eqn{\times}\out{<i>n</i>}}{\eqn{T\times n}} matrix of \if{html}{\out{<i>}}n\if{html}{\out{</i>}} phase components evaluated
 at the time points \code{t}.}
 
-\item{t}{A numeric vector of length \if{html}{\out{<i>}}T\if{html}{\out{</i>}} giving the time points at which
+\item{t}{A numeric vector of length \ifelse{html}{\out{<i>T</i>}}{\eqn{T}} giving the time points at which
 the phase components are evaluated. This vector must start at 0 and end at
 1.}
 
@@ -33,7 +33,7 @@ the phase components are evaluated. This vector must start at 0 and end at
 }
 \value{
 \code{X2Xclrv()} returns an object of class \code{Xclrv}, which is a
-(\if{html}{\out{<i>}}T\if{html}{\out{</i>}}--1)\eqn{\times}\if{html}{\out{<i>}}n\if{html}{\out{</i>}} matrix of clrv transformed phase components
+\ifelse{html}{(\out{<i>T</i>}--1)\eqn{\times}\out{<i>n</i>}}{\eqn{(T-1)\times n}} matrix of clrv transformed phase components
 evaluated over the intervals defined by the time points \code{t}.
 
 \code{plot.Xclrv()} plots phase components after centered log-ratio
@@ -59,7 +59,7 @@ plot(X2Xclrv(sync))
 }
 \references{
 Kang S. and Oh H.-S. (2026) \dQuote{Multiview representation and clustering of
-functional data,} \if{html}{\out{<i>}}Unpublished Manuscript\if{html}{\out{</i>}}.
+functional data,} \emph{Unpublished Manuscript}.
 }
 \seealso{
 \code{\link[=auc_sync]{auc_sync()}} and \code{\link[=fr_sync]{fr_sync()}} for time-synchronizing mappings.

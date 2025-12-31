@@ -5,14 +5,146 @@
 \alias{fkmedians_pre}
 \alias{print.fkmedians}
 \alias{fitted.fkmedians}
-\title{title}
+\title{Functional \eqn{k}-Medians Clustering Using Phase and Amplitude
+Components}
 \usage{
-fkmedians_pre(X.clrv, Y, t, alpha.scale = 1, k, niter = 20, nstart = 1)
+fkmedians_pre(Xclrv, Y, t, alpha_scale = 1, k, niter = 20, nstart = 1)
 
-fkmedians()
+fkmedians(
+  Ytilde,
+  x,
+  t,
+  sync_map = c("auc", "fr"),
+  sync_args,
+  alpha_scale,
+  k,
+  niter = 20,
+  nstart = 1
+)
+
+\method{fitted}{fkmedians}(object, method = c("centers", "classes"), ...)
+}
+\arguments{
+\item{Xclrv}{A \ifelse{html}{(\out{<i>T</i>}--1)\eqn{\times}\out{<i>n</i>}}{\eqn{(T-1)\times n}} matrix of centered log-ratio
+velocity transformed phase components evaluated over the intervals defined
+by the time points \code{t}. Refer to \code{\link[=X2Xclrv]{X2Xclrv()}}.}
+
+\item{Y}{A \ifelse{html}{\out{<i>T</i>}\eqn{\times}\out{<i>n</i>}}{\eqn{T\times n}} matrix of amplitude components
+evaluated at the time points \code{t}.}
+
+\item{t}{A numeric vector of length \ifelse{html}{\out{<i>T</i>}}{\eqn{T}} giving the time points at which
+the phase and amplitude components are evaluated. This vector must start at
+0 and end at 1.}
+
+\item{alpha_scale}{A numeric indicating the value of multiview parameter. The
+multiview parameter \eqn{\alpha} is set to \eqn{\alpha = \alpha_0 \times
+  }\code{alpha_scale}. See the details below. By default, set to 1.}
+
+\item{k}{A numeric indicating the number of clusters.}
+
+\item{niter}{A numeric indicating the number of iterations for
+the \ifelse{html}{\out{<i>k</i>}}{\eqn{k}}-medians algorithm. By default, set to 20.}
+
+\item{nstart}{A numeric indicating the number of initial sets. By default, set to 1.}
+
+\item{Ytilde}{A \ifelse{html}{\out{<i>m</i>}\eqn{\times}\out{<i>n</i>}}{\eqn{m\times n}}
+matrix whose \ifelse{html}{\out{<i>i</i>}}{\eqn{i}}th column
+contains the values of the \ifelse{html}{\out{<i>i</i>}}{\eqn{i}}th observed function evaluated at the
+\ifelse{html}{\out{<i>m</i>}}{\eqn{m}} time points \code{x}.}
+
+\item{x}{A numeric vector of length \ifelse{html}{\out{<i>m</i>}}{\eqn{m}} giving the observed time points
+corresponding to \code{Ytilde}.}
+
+\item{sync_map}{A character string. If \code{"auc"}, AUC time-synchronizing
+mapping is used. If \code{"fr"}, FR time-synchronizing mapping is used.
+Refer to \code{\link[=auc_sync]{auc_sync()}} and \code{\link[=fr_sync]{fr_sync()}}.}
+
+\item{sync_args}{If \code{sync_map == "auc"} it represents a numeric
+indicating the parameter \ifelse{html}{\out{<i>p</i>}}{\eqn{p}} used in AUC time-synchronizing mapping. If
+\code{sync_map == "fr"} it represent the template function used in FR
+time-synchronizing mapping.}
+
+\item{...}{Not used.}
+
+\item{object}{A \code{fkmedians} object, obtained as a result of the function
+\code{fkmedians_pre()} or \code{fkmedians()}.}
+
+\item{method}{A character string.
+\itemize{
+\item \code{"centers"}: Returns cluster centers for each curve.
+\item \code{"classes"}: Returns a vector of class assignments.
+}}
+}
+\value{
+\code{fkmedians_pre()} and \code{fkmedians()} return an object of class
+\code{fkmedians}, which is a list containing the following components:
+\item{\code{cluster}}{A vector of integers (from \code{1:k}) indicating the cluster to which each function is allocated.}
+\item{\code{centers.Xclrv}}{A \ifelse{html}{(\out{<i>T</i>}--1)\eqn{\times}\out{<i>k</i>}}{\eqn{(T-1)\times k}} matrix of phase components' cluster centers (centered log-ratio velocity transformed).}
+\item{\code{centers.Y}}{A \ifelse{html}{\out{<i>T</i>}\eqn{\times}\out{<i>k</i>}}{\eqn{T\times k}} matrix of amplitude components' cluster centers.}
+\item{\code{withinsrs}}{A vector of within-cluster sum of residuals, one component per cluster.}
+\item{\code{tot.withinsrs}}{Total within-cluster sum of residuals, i.e., \code{sum(withinsrs)}.}
+\item{\code{size}}{The number of functions in each cluster.}
+\item{\code{iter}}{The number of (outer) iterations.}
+\item{\code{alpha0}}{The reference value \eqn{\alpha_0}.}
+
+\code{print()} and \code{fitted()} methods are supported for the
+object of class \code{fkmedians}. \code{fitted.fkmedians()} with \code{method =
+  "centers"} returns cluster centers (one for each input point) and
+\code{method = "classes"} returns a vector of class assignments.
 }
 \description{
-title
+Conducts \ifelse{html}{\out{<i>k</i>}}{\eqn{k}}-medians clustering by jointly considering phase and amplitude
+variation. The relative importance of the two components can be explicitly
+controlled by the user via the multiview parameter \eqn{\alpha}. See the
+details below.
+}
+\details{
+The distance between two observed functions is defined in terms of their
+phase and amplitude components. For two functions with components
+\eqn{(X_1, Y_1)} and \eqn{(X_2, Y_2)}, the distance is given by
+\deqn{
+\left\{
+  \alpha \|\texttt{clrv}(X_1) - \texttt{clrv}(X_2)\|_2^2
+  + \|Y_1 - Y_2\|_2^2
+\right\}^{1/2},
+}
+where \eqn{\|\cdot\|_2} denotes the usual \eqn{\mathbb{L}^2} norm and
+\eqn{\alpha \ge 0} is the multiview parameter. For the \code{clrv}
+transformation, refer to \code{\link[=X2Xclrv]{X2Xclrv()}}.
 
-title
+Based on this distance,
+\ifelse{html}{\out{<i>k</i>}}{\eqn{k}}-medians clustering is performed. In
+particular, Weiszfeld algorithm is used to find the geometric median function
+for each cluster, implemented in \code{\link[Kmedians:Kmedians]{Kmedians::Kmedians()}}.
+
+A reference value \eqn{\alpha_0}, which serves as a baseline around which
+\eqn{\alpha} may be varied, is selected as follows. The value \eqn{\alpha_0}
+is defined as the ratio of the total sum of squares of the amplitude
+components to that of the phase components.
+
+See the documentation for \code{\link[Kmedians:Kmedians]{Kmedians::Kmedians()}} (Godichon-Baggioni and
+Surendran, 2024) and Kang and Oh (2026) for further details.
+}
+\examples{
+t <- seq(0, 1, length.out = 100)
+sync <- auc_sync(seoul_bike$Ytilde[,1:10], seoul_bike$x, t)
+fkmedians_pre(X2Xclrv(sync), sync$Y, t, alpha_scale = 1, k = 2, nstart = 10)
+fkmedians(seoul_bike$Ytilde[,1:10], seoul_bike$x, t, sync_map = "auc",
+  sync_args = 1, alpha_scale = 1, k = 2, nstart = 10)
+
+}
+\references{
+Godichon-Baggioni A. and Surendran S. (2024) \dQuote{A
+penalized criterion for selecting the number of clusters for K-medians,}
+\emph{Journal of Computational and Graphical Statistics}, \strong{33}(4),
+1298--1309.
+
+Kang S. and Oh H.-S. (2026) \dQuote{Multiview representation and clustering of
+functional data,} \emph{Unpublished Manuscript}.
+}
+\seealso{
+\code{\link[Kmedians:Kmedians]{Kmedians::Kmedians()}} for multivariate \ifelse{html}{\out{<i>k</i>}}{\eqn{k}}-medians clustering.
+\code{\link[=fkmeans_pre]{fkmeans_pre()}} and \code{\link[=fkmeans]{fkmeans()}} for functional \ifelse{html}{\out{<i>k</i>}}{\eqn{k}}-means
+clustering. \code{\link[=auc_sync]{auc_sync()}} and \code{\link[=fr_sync]{fr_sync()}} for time-synchronizing mappings.
+\code{\link[=X2Xclrv]{X2Xclrv()}} for centered log-ratio velocity transformation.
 }
