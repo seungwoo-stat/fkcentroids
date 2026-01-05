@@ -14,7 +14,7 @@ fkmedians(
   Ytilde,
   x,
   t,
-  sync_map = c("auc", "fr"),
+  sync_map = c("auc", "fr", "none"),
   sync_args,
   alpha_scale = 1,
   k,
@@ -55,14 +55,17 @@ contains the values of the \ifelse{html}{\out{<i>i</i>}}{\eqn{i}}th observed fun
 \item{x}{A numeric vector of length \ifelse{html}{\out{<i>m</i>}}{\eqn{m}} giving the observed time points
 corresponding to \code{Ytilde}.}
 
-\item{sync_map}{A character string. If \code{"auc"}, AUC time-synchronizing
-mapping is used. If \code{"fr"}, FR time-synchronizing mapping is used.
-Refer to \code{\link[=auc_sync]{auc_sync()}} and \code{\link[=fr_sync]{fr_sync()}}.}
+\item{sync_map}{A character string. If \code{"auc"} (the default), AUC
+time-synchronizing mapping is used. If \code{"fr"}, FR time-synchronizing
+mapping is used. Refer to \code{\link[=auc_sync]{auc_sync()}} and \code{\link[=fr_sync]{fr_sync()}}. If \code{"none"},
+time-synchronizing mapping is not used, and the functional clustering is conducted on the
+observed curves \code{Ytilde}. Hence, for \code{"none"}, the arguments
+\code{t}, \code{sync_args}, and \code{alpha_scale} are ignored.}
 
-\item{sync_args}{If \code{sync_map == "auc"} it represents a numeric
-indicating the parameter \ifelse{html}{\out{<i>p</i>}}{\eqn{p}} used in AUC time-synchronizing mapping. If
-\code{sync_map == "fr"} it represent the template function used in FR
-time-synchronizing mapping.}
+\item{sync_args}{If \code{sync_map == "auc"} it represents a
+numeric indicating the parameter \ifelse{html}{\out{<i>p</i>}}{\eqn{p}}
+used in AUC time-synchronizing mapping. If \code{sync_map == "fr"} it
+represent the template function used in FR time-synchronizing mapping.}
 
 \item{...}{Not used.}
 
@@ -79,8 +82,9 @@ time-synchronizing mapping.}
 \code{fkmedians_pre()} and \code{fkmedians()} return an object of class
 \code{fkmedians}, which is a list containing the following components:
 \item{\code{cluster}}{A vector of integers (from \code{1:k}) indicating the cluster to which each function is allocated.}
-\item{\code{centers.Xclrv}}{A \ifelse{html}{(\out{<i>T</i>}--1)\eqn{\times}\out{<i>k</i>}}{\eqn{(T-1)\times k}} matrix of phase components' cluster centers (centered log-ratio velocity transformed).}
-\item{\code{centers.Y}}{A \ifelse{html}{\out{<i>T</i>}\eqn{\times}\out{<i>k</i>}}{\eqn{T\times k}} matrix of amplitude components' cluster centers.}
+\item{\code{centers.Xclrv}}{A \ifelse{html}{(\out{<i>T</i>}--1)\eqn{\times}\out{<i>k</i>}}{\eqn{(T-1)\times k}} matrix of phase components' cluster centers (centered log-ratio velocity transformed). This component is not returned when \code{sync_map == "none"}.}
+\item{\code{centers.Y}}{A \ifelse{html}{\out{<i>T</i>}\eqn{\times}\out{<i>k</i>}}{\eqn{T\times k}} matrix of amplitude components' cluster centers. This component is not returned when \code{sync_map == "none"}.}
+\item{\code{centers.Ytilde}}{A \ifelse{html}{\out{<i>T</i>}\eqn{\times}\out{<i>k</i>}}{\eqn{T\times k}} matrix of raw functions' cluster centers. This component is only returned when \code{sync_map == "none"}.}
 \item{\code{withinsrs}}{A vector of within-cluster sum of residuals, one component per cluster.}
 \item{\code{tot.withinsrs}}{Total within-cluster sum of residuals, i.e., \code{sum(withinsrs)}.}
 \item{\code{size}}{The number of functions in each cluster.}
@@ -95,8 +99,10 @@ object of class \code{fkmedians}. \code{fitted.fkmedians()} with \code{method =
 \description{
 Conducts \ifelse{html}{\out{<i>k</i>}}{\eqn{k}}-medians clustering by jointly considering phase and amplitude
 variation. The relative importance of the two components can be explicitly
-controlled by the user via the multiview parameter \eqn{\alpha}. See the
-details below.
+controlled by the user via the multiview parameter \eqn{\alpha}. Optionally,
+\ifelse{html}{\out{<i>k</i>}}{\eqn{k}}-medians clustering can be performed
+directly on the observed curves, rather than on their phase and amplitude
+components. See Details below.
 }
 \details{
 The distance between two observed functions is defined in terms of their

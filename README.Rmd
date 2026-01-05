@@ -35,7 +35,7 @@ are provided.
 <!-- library(fkcentroids) -->
 <!-- ``` -->
 
-You can install the development version (version 0.0.0.9000) of `fkcentroids` via:
+You can install the development version (version 0.0.0.9001) of `fkcentroids` via:
 
 ``` r
 devtools::install_github("seungwoo-stat/fkcentroids")
@@ -48,8 +48,7 @@ Using the Berkeley growth curves from the **fda** package, the functions can be 
 
 ```{r example}
 library(fkcentroids)
-library(fda)
-data(growth)
+data(growth, package = "fda")
 Ytilde <- cbind(growth$hgtm, growth$hgtf)
 x <- growth$age
 fkmeans(Ytilde, x, t = seq(0, 1, length.out = 100),

@@ -6,8 +6,10 @@
 #' @description
 #' Conducts \ifelse{html}{\out{<i>k</i>}}{\eqn{k}}-medians clustering by jointly considering phase and amplitude
 #' variation. The relative importance of the two components can be explicitly
-#' controlled by the user via the multiview parameter \eqn{\alpha}. See the
-#' details below.
+#' controlled by the user via the multiview parameter \eqn{\alpha}. Optionally,
+#' \ifelse{html}{\out{<i>k</i>}}{\eqn{k}}-medians clustering can be performed
+#' directly on the observed curves, rather than on their phase and amplitude
+#' components. See Details below.
 #'
 #' @details
 #' The distance between two observed functions is defined in terms of their
@@ -43,8 +45,9 @@
 #' @return \code{fkmedians_pre()} and \code{fkmedians()} return an object of class
 #'   \code{fkmedians}, which is a list containing the following components:
 #'   \item{\code{cluster}}{A vector of integers (from \code{1:k}) indicating the cluster to which each function is allocated.}
-#'   \item{\code{centers.Xclrv}}{A \ifelse{html}{(\out{<i>T</i>}--1)\eqn{\times}\out{<i>k</i>}}{\eqn{(T-1)\times k}} matrix of phase components' cluster centers (centered log-ratio velocity transformed).}
-#'   \item{\code{centers.Y}}{A \ifelse{html}{\out{<i>T</i>}\eqn{\times}\out{<i>k</i>}}{\eqn{T\times k}} matrix of amplitude components' cluster centers.}
+#'   \item{\code{centers.Xclrv}}{A \ifelse{html}{(\out{<i>T</i>}--1)\eqn{\times}\out{<i>k</i>}}{\eqn{(T-1)\times k}} matrix of phase components' cluster centers (centered log-ratio velocity transformed). This component is not returned when \code{sync_map == "none"}.}
+#'   \item{\code{centers.Y}}{A \ifelse{html}{\out{<i>T</i>}\eqn{\times}\out{<i>k</i>}}{\eqn{T\times k}} matrix of amplitude components' cluster centers. This component is not returned when \code{sync_map == "none"}.}
+#'   \item{\code{centers.Ytilde}}{A \ifelse{html}{\out{<i>T</i>}\eqn{\times}\out{<i>k</i>}}{\eqn{T\times k}} matrix of raw functions' cluster centers. This component is only returned when \code{sync_map == "none"}.}
 #'   \item{\code{withinsrs}}{A vector of within-cluster sum of residuals, one component per cluster.}
 #'   \item{\code{tot.withinsrs}}{Total within-cluster sum of residuals, i.e., \code{sum(withinsrs)}.}
 #'   \item{\code{size}}{The number of functions in each cluster.}
@@ -109,23 +112,54 @@ fkmedians_pre <- function(Xclrv, Y, t, alpha_scale = 1,
             class = "fkmedians")
 }
 
+fkmedians_raw <- function(Ytilde, x, k, niter = 20, nstart = 1){
+  if(length(x) <= 1) stop("length of x must be >= 2")
+  if(length(x) != nrow(Ytilde)) stop("length of x must be equivalent to nrow(Ytilde)")
+  if(length(k) != 1) warning("only the first element of k is used")
+  k <- k[1]
+  w.Y <- c((x[2] - x[1]) / 2,
+           diff(x, lag = 2) / 2,
+           (x[length(x)] - x[length(x) - 1]) / 2)
+  DATAMAT <- t(Ytilde * w.Y)
+  res <- Kmedians::Kmedians(X = DATAMAT, nclust = k, ninit = nstart, niter = niter, method = "Offline", init = TRUE, par = FALSE)
+  resb <- res$bestresult
+
+  withinsrs <- sapply(1:k, function(k){
+    sum(sqrt(colSums((t(DATAMAT)[,resb$cluster == k,drop = FALSE] - res$bestresult$centers[k,])^2)))
+  })
+  centers.Ytilde <- t(resb$centers) / w.Y
+  dimnames(centers.Ytilde) <- list(dimnames(Ytilde)[[1L]],1L:k)
+  cluster <- resb$cluster
+  if(!is.null(rn <- colnames(Ytilde))) names(cluster) <- rn
+  size <- as.numeric(table(factor(cluster, levels = 1:k)))
+
+  structure(list(cluster = cluster, centers.Ytilde = centers.Ytilde,
+                 withinsrs = withinsrs, tot.withinsrs = sum(withinsrs),
+                 size = size, iter = niter, alpha0 = NA),
+            class = "fkmedians")
+}
+
 #' @name fkmedians
 #'
 #' @inheritParams fkmeans
 #' @export
-fkmedians <- function(Ytilde, x, t, sync_map = c("auc", "fr"), sync_args,
+fkmedians <- function(Ytilde, x, t, sync_map = c("auc", "fr", "none"), sync_args,
                       alpha_scale = 1, k, niter = 20, nstart = 1){
-  if(t[1] != 0L || t[length(t)] != 1L) stop("t must be an increasing sequence that starts at zero and end at one")
-  sync_map <- match.arg(sync_map)
-  if(sync_map == "auc"){
-    if(!is.numeric(sync_args) || length(sync_args) != 1) stop("sync_args must be a single numeric; see auc_sync() documentation")
-    sync <- auc_sync(Ytilde, x, t, sync_args)
+  sync_map <- match.arg(sync_map, c("auc", "fr", "none"))
+  if(sync_map == "none"){
+    fkmedians_raw(Ytilde = Ytilde, x = x, k = k, niter = niter, nstart = nstart)
   }else{
-    if(length(sync_args) != length(t)) stop("sync_args must be a vector of length = length(t) representing a template function")
-    sync <- fr_sync(Ytilde, x, t, sync_args)
+    if(t[1] != 0L || t[length(t)] != 1L) stop("t must be an increasing sequence that starts at zero and end at one")
+    if(sync_map == "auc"){
+      if(!is.numeric(sync_args) || length(sync_args) != 1) stop("sync_args must be a single numeric; see auc_sync() documentation")
+      sync <- auc_sync(Ytilde, x, t, sync_args)
+    }else{
+      if(length(sync_args) != length(t)) stop("sync_args must be a vector of length = length(t) representing a template function")
+      sync <- fr_sync(Ytilde, x, t, sync_args)
+    }
+    fkmedians_pre(Xclrv = X2Xclrv(sync$X, t), Y = sync$Y, t = t, alpha_scale = alpha_scale,
+                  k, niter = niter, nstart = nstart)
   }
-  fkmedians_pre(Xclrv = X2Xclrv(sync$X, t), Y = sync$Y, t = t, alpha_scale = alpha_scale,
-                k, niter = niter, nstart = nstart)
 }
 
 #' @name fkmedians
@@ -161,7 +195,7 @@ print.fkmedians <- function(x, ...){
 #'   \code{method = "classes"} returns a vector of class assignments.
 #' @export
 fitted.fkmedians <- function(object, method = c("centers", "classes"), ...){
-  method <- match.arg(method)
+  method <- match.arg(method, c("centers", "classes"))
   if (method == "centers")
     list(centers.X = object$centers.Xclrv[, object$cluster, drop = FALSE],
          centers.Y = object$centers.Y[, object$cluster, drop = FALSE])

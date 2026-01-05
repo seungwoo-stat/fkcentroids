@@ -4,10 +4,13 @@
 #'   Components
 #'
 #' @description
-#' Conducts \ifelse{html}{\out{<i>k</i>}}{\eqn{k}}-means clustering by jointly considering phase and amplitude
-#' variation. The relative importance of the two components can be explicitly
-#' controlled by the user via the multiview parameter \eqn{\alpha}. See the
-#' details below.
+#' Conducts \ifelse{html}{\out{<i>k</i>}}{\eqn{k}}-means clustering by jointly
+#' considering phase and amplitude variation. The relative importance of the two
+#' components can be explicitly controlled by the user via the multiview
+#' parameter \eqn{\alpha}. Optionally,
+#' \ifelse{html}{\out{<i>k</i>}}{\eqn{k}}-means clustering can be performed
+#' directly on the observed curves, rather than on their phase and amplitude
+#' components. See Details below.
 #'
 #' @details
 #' The distance between two observed functions is defined in terms of their
@@ -57,8 +60,9 @@
 #' @return \code{fkmeans_pre()} and \code{fkmeans()} return an object of class
 #'   \code{fkmeans}, which is a list containing the following components:
 #'   \item{\code{cluster}}{A vector of integers (from \code{1:k}) indicating the cluster to which each function is allocated.}
-#'   \item{\code{centers.Xclrv}}{A \ifelse{html}{(\out{<i>T</i>}--1)\eqn{\times}\out{<i>k</i>}}{\eqn{(T-1)\times k}} matrix of phase components' cluster centers (centered log-ratio velocity transformed).}
-#'   \item{\code{centers.Y}}{A \ifelse{html}{\out{<i>T</i>}\eqn{\times}\out{<i>k</i>}}{\eqn{T\times k}} matrix of amplitude components' cluster centers.}
+#'   \item{\code{centers.Xclrv}}{A \ifelse{html}{(\out{<i>T</i>}--1)\eqn{\times}\out{<i>k</i>}}{\eqn{(T-1)\times k}} matrix of phase components' cluster centers (centered log-ratio velocity transformed). This component is not returned when \code{sync_map == "none"}.}
+#'   \item{\code{centers.Y}}{A \ifelse{html}{\out{<i>T</i>}\eqn{\times}\out{<i>k</i>}}{\eqn{T\times k}} matrix of amplitude components' cluster centers. This component is not returned when \code{sync_map == "none"}.}
+#'   \item{\code{centers.Ytilde}}{A \ifelse{html}{\out{<i>T</i>}\eqn{\times}\out{<i>k</i>}}{\eqn{T\times k}} matrix of raw functions' cluster centers. This component is only returned when \code{sync_map == "none"}.}
 #'   \item{\code{totss}}{The total sum of squares.}
 #'   \item{\code{withinss}}{A vector of within-cluster sum of squares, one component per cluster.}
 #'   \item{\code{tot.withinss}}{Total within-cluster sum of squares, i.e., \code{sum(withinss)}.}
@@ -103,7 +107,7 @@ fkmeans_pre <- function(Xclrv, Y, t, alpha_scale = 1,
   alpha0 <- sst.Y / sst.X
   DATAMAT <- t(rbind(Xclrv * (alpha0 * alpha_scale)^(1/2) * diff(t),
                      Y * w.Y))
-  algorithm <- match.arg(algorithm)
+  algorithm <- match.arg(algorithm, c("Hartigan-Wong", "Lloyd", "Forgy", "MacQueen"))
   res <- stats::kmeans(x = DATAMAT, centers = k, iter.max = itermax,
                 nstart = nstart, algorithm = algorithm, trace = trace)
   centers.Xclrv <- t(res$centers[,seq_along(diff(t))]) / ((alpha0 * alpha_scale)^(1/2) * diff(t))
@@ -117,37 +121,69 @@ fkmeans_pre <- function(Xclrv, Y, t, alpha_scale = 1,
             class = "fkmeans")
 }
 
+fkmeans_raw <- function(Ytilde, x,
+                        k, itermax = 10, nstart = 1,
+                        algorithm = c("Hartigan-Wong", "Lloyd", "Forgy", "MacQueen"),
+                        trace = FALSE){
+  if(length(x) <= 1) stop("length of x must be >= 2")
+  if(length(x) != nrow(Ytilde)) stop("length of x must be equivalent to nrow(Ytilde)")
+  if(length(k) != 1) warning("only the first element of k is used")
+  k <- k[1]
+  w.Y <- c((x[2] - x[1]) / 2,
+           diff(x, lag = 2) / 2,
+           (x[length(x)] - x[length(x) - 1]) / 2)
+  DATAMAT <- t(Ytilde * w.Y)
+  algorithm <- match.arg(algorithm, c("Hartigan-Wong", "Lloyd", "Forgy", "MacQueen"))
+  res <- stats::kmeans(x = DATAMAT, centers = k, iter.max = itermax,
+                       nstart = nstart, algorithm = algorithm, trace = trace)
+  centers.Ytilde <- t(res$centers) / w.Y
+  dimnames(centers.Ytilde) <- list(dimnames(Ytilde)[[1L]],1L:k)
+
+  structure(list(cluster = res$cluster, centers.Ytilde = centers.Ytilde,
+                 totss = res$totss, withinss = res$withinss, tot.withinss = res$tot.withinss,
+                 betweenss = res$betweenss, size = res$size, iter = res$iter, ifault = res$ifault, alpha0 = NA),
+            class = "fkmeans")
+}
+
 #' @name fkmeans
 #'
 #' @inheritParams syncftn
 #' @param x A numeric vector of length \ifelse{html}{\out{<i>m</i>}}{\eqn{m}} giving the observed time points
 #'   corresponding to \code{Ytilde}.
-#' @param sync_map A character string. If \code{"auc"}, AUC time-synchronizing
-#'   mapping is used. If \code{"fr"}, FR time-synchronizing mapping is used.
-#'   Refer to [auc_sync()] and [fr_sync()].
-#' @param sync_args If \code{sync_map == "auc"} it represents a numeric
-#'   indicating the parameter \ifelse{html}{\out{<i>p</i>}}{\eqn{p}} used in AUC time-synchronizing mapping. If
-#'   \code{sync_map == "fr"} it represent the template function used in FR
-#'   time-synchronizing mapping.
+#' @param sync_map A character string. If \code{"auc"} (the default), AUC
+#'   time-synchronizing mapping is used. If \code{"fr"}, FR time-synchronizing
+#'   mapping is used. Refer to [auc_sync()] and [fr_sync()]. If \code{"none"},
+#'   time-synchronizing mapping is not used, and the functional clustering is conducted on the
+#'   observed curves \code{Ytilde}. Hence, for \code{"none"}, the arguments
+#'   \code{t}, \code{sync_args}, and \code{alpha_scale} are ignored.
+#' @param sync_args If \code{sync_map == "auc"} it represents a
+#'   numeric indicating the parameter \ifelse{html}{\out{<i>p</i>}}{\eqn{p}}
+#'   used in AUC time-synchronizing mapping. If \code{sync_map == "fr"} it
+#'   represent the template function used in FR time-synchronizing mapping.
 #' @export
-fkmeans <- function(Ytilde, x, t, sync_map = c("auc", "fr"), sync_args,
+fkmeans <- function(Ytilde, x, t, sync_map = c("auc", "fr", "none"), sync_args,
                     alpha_scale = 1, k, itermax = 10, nstart = 1,
                     algorithm = c("Hartigan-Wong", "Lloyd", "Forgy", "MacQueen"),
                     trace = FALSE){
-  if(t[1] != 0L || t[length(t)] != 1L) stop("t must be an increasing sequence that starts at zero and end at one")
-  sync_map <- match.arg(sync_map)
-  if(sync_map == "auc"){
-    if(!is.numeric(sync_args) || length(sync_args) != 1) stop("sync_args must be a single numeric; see auc_sync() documentation")
-    sync <- auc_sync(Ytilde, x, t, sync_args)
+  sync_map <- match.arg(sync_map, c("auc", "fr", "none"))
+  if(sync_map == "none"){
+    fkmeans_raw(Ytilde = Ytilde, x = x, k = k, itermax = itermax, nstart = nstart,
+                algorithm = algorithm, trace = trace)
   }else{
-    if(length(sync_args) != length(t)) stop("sync_args must be a vector of length = length(t) representing a template function")
-    sync <- fr_sync(Ytilde, x, t, sync_args)
+    if(t[1] != 0L || t[length(t)] != 1L) stop("t must be an increasing sequence that starts at zero and end at one")
+    if(sync_map == "auc"){
+      if(!is.numeric(sync_args) || length(sync_args) != 1) stop("sync_args must be a single numeric; see auc_sync() documentation")
+      sync <- auc_sync(Ytilde, x, t, sync_args)
+    }else{
+      if(length(sync_args) != length(t)) stop("sync_args must be a vector of length = length(t) representing a template function")
+      sync <- fr_sync(Ytilde, x, t, sync_args)
+    }
+    algorithm <- match.arg(algorithm, c("Hartigan-Wong", "Lloyd", "Forgy", "MacQueen"))
+    fkmeans_pre(Xclrv = X2Xclrv(sync$X, t), Y = sync$Y, t = t, alpha_scale = alpha_scale,
+                k, itermax = itermax, nstart = nstart,
+                algorithm = algorithm,
+                trace = trace)
   }
-  algorithm <- match.arg(algorithm)
-  fkmeans_pre(Xclrv = X2Xclrv(sync$X, t), Y = sync$Y, t = t, alpha_scale = alpha_scale,
-              k, itermax = itermax, nstart = nstart,
-              algorithm = algorithm,
-              trace = trace)
 }
 
 #' @name fkmeans
@@ -185,7 +221,7 @@ print.fkmeans <- function(x, ...){
 #'   \code{method = "classes"} returns a vector of class assignments.
 #' @export
 fitted.fkmeans <- function(object, method = c("centers", "classes"), ...){
-  method <- match.arg(method)
+  method <- match.arg(method, c("centers", "classes"))
   if (method == "centers")
     list(centers.X = object$centers.X.clrv[, object$cluster, drop = FALSE],
          centers.Y = object$centers.Y[, object$cluster, drop = FALSE])
