@@ -11,6 +11,7 @@ knitr::opts_chunk$set(
   fig.path = "man/figures/README-",
   out.width = "100%"
 )
+set.seed(0)
 ```
 
 # fkcentroids
@@ -51,11 +52,13 @@ library(fkcentroids)
 data(growth, package = "fda")
 Ytilde <- cbind(growth$hgtm, growth$hgtf)
 x <- growth$age
-fkmeans(Ytilde, x, t = seq(0, 1, length.out = 100),
-        sync_map = "auc", sync_args = 1, alpha_scale = 1, 
-        k = 2, nstart = 10)
+(res_pa <- fkmeans(Ytilde, x, t = seq(0, 1, length.out = 100),
+                   sync_map = "auc", sync_args = 1, alpha_scale = 1, 
+                   k = 2, nstart = 10))
+(res_raw <- fkmeans(Ytilde, x, t = seq(0, 1, length.out = 100),
+                    sync_map = "none", k = 2, nstart = 10))
 ```
-
+It can be checked that the correct classification rate using phase and amplitude components of each curve is `r round(93 - mclust::classError(res_pa$cluster, c(rep(1,39),rep(2,54)))$errorRate * 93)`/93, whereas functional *k*-means clustering conducted directly on the observed curves yields correct classification rate of `r round(93 - mclust::classError(res_raw$cluster, c(rep(1,39),rep(2,54)))$errorRate * 93)`/93.
 Refer to the package documentation for details.
 
 ``` r

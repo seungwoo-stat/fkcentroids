@@ -53,42 +53,78 @@ library(fkcentroids)
 data(growth, package = "fda")
 Ytilde <- cbind(growth$hgtm, growth$hgtf)
 x <- growth$age
-fkmeans(Ytilde, x, t = seq(0, 1, length.out = 100),
-        sync_map = "auc", sync_args = 1, alpha_scale = 1, 
-        k = 2, nstart = 10)
-#> Functional k-means clustering with 2 clusters of sizes 51, 42 
+(res_pa <- fkmeans(Ytilde, x, t = seq(0, 1, length.out = 100),
+                   sync_map = "auc", sync_args = 1, alpha_scale = 1, 
+                   k = 2, nstart = 10))
+#> Functional k-means clustering with 2 clusters of sizes 42, 51 
 #> 
 #> Clustering vector: 
 #>  boy01  boy02  boy03  boy04  boy05  boy06  boy07  boy08  boy09  boy10  boy11 
-#>      2      2      2      2      2      2      2      2      2      2      2 
+#>      1      1      1      1      1      1      1      1      1      1      1 
 #>  boy12  boy13  boy14  boy15  boy16  boy17  boy18  boy19  boy20  boy21  boy22 
-#>      2      2      2      2      2      2      2      2      2      2      2 
+#>      1      1      1      1      1      1      1      1      1      1      1 
 #>  boy23  boy24  boy25  boy26  boy27  boy28  boy29  boy30  boy31  boy32  boy33 
-#>      2      2      2      2      2      2      2      2      2      2      2 
+#>      1      1      1      1      1      1      1      1      1      1      1 
 #>  boy34  boy35  boy36  boy37  boy38  boy39 girl01 girl02 girl03 girl04 girl05 
-#>      2      2      2      2      2      2      1      1      1      1      1 
+#>      1      1      1      1      1      1      2      2      2      2      2 
 #> girl06 girl07 girl08 girl09 girl10 girl11 girl12 girl13 girl14 girl15 girl16 
-#>      1      1      1      1      1      1      1      1      1      1      1 
+#>      2      2      2      2      2      2      2      2      2      2      2 
 #> girl17 girl18 girl19 girl20 girl21 girl22 girl23 girl24 girl25 girl26 girl27 
-#>      1      1      1      1      1      1      1      1      2      1      1 
+#>      2      2      2      2      2      2      2      2      1      2      2 
 #> girl28 girl29 girl30 girl31 girl32 girl33 girl34 girl35 girl36 girl37 girl38 
-#>      1      1      1      1      1      1      1      1      1      1      1 
+#>      2      2      2      2      2      2      2      2      2      2      2 
 #> girl39 girl40 girl41 girl42 girl43 girl44 girl45 girl46 girl47 girl48 girl49 
-#>      1      1      1      1      1      1      1      1      1      1      2 
+#>      2      2      2      2      2      2      2      2      2      2      1 
 #> girl50 girl51 girl52 girl53 girl54 
-#>      1      2      1      1      1 
+#>      2      1      2      2      2 
 #> 
 #> Within cluster sum of squares by cluster: 
-#> [1] 28.68932 27.38324
+#> [1] 27.38324 28.68932
 #>  (between_SS / total_SS = 35.7 %)
 #> 
 #> Available components: 
 #>  [1] "cluster"       "centers.Xclrv" "centers.Y"     "totss"        
 #>  [5] "withinss"      "tot.withinss"  "betweenss"     "size"         
 #>  [9] "iter"          "ifault"        "alpha0"
+(res_raw <- fkmeans(Ytilde, x, t = seq(0, 1, length.out = 100),
+                    sync_map = "none", k = 2, nstart = 10))
+#> Functional k-means clustering with 2 clusters of sizes 51, 42 
+#> 
+#> Clustering vector: 
+#>  boy01  boy02  boy03  boy04  boy05  boy06  boy07  boy08  boy09  boy10  boy11 
+#>      2      1      1      2      1      1      1      2      1      2      2 
+#>  boy12  boy13  boy14  boy15  boy16  boy17  boy18  boy19  boy20  boy21  boy22 
+#>      2      2      2      2      2      2      2      1      2      1      1 
+#>  boy23  boy24  boy25  boy26  boy27  boy28  boy29  boy30  boy31  boy32  boy33 
+#>      1      1      1      2      2      1      2      2      2      2      1 
+#>  boy34  boy35  boy36  boy37  boy38  boy39 girl01 girl02 girl03 girl04 girl05 
+#>      1      2      2      2      2      1      1      1      2      2      1 
+#> girl06 girl07 girl08 girl09 girl10 girl11 girl12 girl13 girl14 girl15 girl16 
+#>      1      1      2      1      2      1      1      1      1      2      1 
+#> girl17 girl18 girl19 girl20 girl21 girl22 girl23 girl24 girl25 girl26 girl27 
+#>      1      2      1      2      2      1      1      1      2      1      1 
+#> girl28 girl29 girl30 girl31 girl32 girl33 girl34 girl35 girl36 girl37 girl38 
+#>      1      1      1      1      1      2      1      2      1      1      2 
+#> girl39 girl40 girl41 girl42 girl43 girl44 girl45 girl46 girl47 girl48 girl49 
+#>      2      2      1      1      2      1      1      1      1      1      2 
+#> girl50 girl51 girl52 girl53 girl54 
+#>      1      2      1      2      2 
+#> 
+#> Within cluster sum of squares by cluster: 
+#> [1] 9265.661 9449.935
+#>  (between_SS / total_SS = 47.7 %)
+#> 
+#> Available components: 
+#>  [1] "cluster"        "centers.Ytilde" "totss"          "withinss"      
+#>  [5] "tot.withinss"   "betweenss"      "size"           "iter"          
+#>  [9] "ifault"         "alpha0"
 ```
 
-Refer to the package documentation for details.
+It can be checked that the correct classification rate using phase and
+amplitude components of each curve is 90/93, whereas functional
+*k*-means clustering conducted directly on the observed curves yields
+correct classification rate of 58/93. Refer to the package documentation
+for details.
 
 ``` r
 ?`fkcentroids-package`
