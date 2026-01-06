@@ -49,7 +49,7 @@ and amplitude variations can be controlled by the argument
 `alpha_scale`, which is set to 1 by default.
 
 ``` r
-library(fkcentroids)
+library(fkcentroids) 
 data(growth, package = "fda")
 Ytilde <- cbind(growth$hgtm, growth$hgtf)
 x <- growth$age
@@ -115,9 +115,9 @@ x <- growth$age
 #>  (between_SS / total_SS = 47.7 %)
 #> 
 #> Available components: 
-#>  [1] "cluster"        "centers.Ytilde" "totss"          "withinss"      
-#>  [5] "tot.withinss"   "betweenss"      "size"           "iter"          
-#>  [9] "ifault"         "alpha0"
+#> [1] "cluster"        "centers.Ytilde" "totss"          "withinss"      
+#> [5] "tot.withinss"   "betweenss"      "size"           "iter"          
+#> [9] "ifault"
 ```
 
 It can be checked that the correct classification rate using phase and

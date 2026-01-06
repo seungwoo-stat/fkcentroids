@@ -36,6 +36,6 @@ to generate a smooth function for each station.
 }
 \references{
 Kang S. and Oh H.-S. (2026) "Multiview representation and clustering of
-functional data," \if{html}{\out{<i>}}Unpublished Manuscript\if{html}{\out{</i>}}.
+functional data," \emph{Unpublished Manuscript}.
 }
 \keyword{datasets}

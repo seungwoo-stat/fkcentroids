@@ -48,7 +48,7 @@ library(fkcentroids)
 Using the Berkeley growth curves from the **fda** package, the functions can be clustered using `fkmeans()` (or `fkmedians()`) after decomposing them into their phase and amplitude components. Weights between phase and amplitude variations can be controlled by the argument `alpha_scale`, which is set to 1 by default.
 
 ```{r example}
-library(fkcentroids)
+library(fkcentroids) 
 data(growth, package = "fda")
 Ytilde <- cbind(growth$hgtm, growth$hgtf)
 x <- growth$age

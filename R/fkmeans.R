@@ -70,7 +70,7 @@
 #'   \item{\code{size}}{The number of functions in each cluster.}
 #'   \item{\code{iter}}{The number of (outer) iterations.}
 #'   \item{\code{ifault}}{Indicator of a possible algorithm problem; refer to [stats::kmeans()].}
-#'   \item{\code{alpha0}}{The reference value \eqn{\alpha_0}.}
+#'   \item{\code{alpha0}}{The reference value \eqn{\alpha_0}. This component is not returned when \code{sync_map == "none"}.}
 #'
 #' @references Kang S. and Oh H.-S. (2026) \dQuote{Multiview representation and clustering of
 #' functional data,} \emph{Unpublished Manuscript}.
@@ -141,7 +141,7 @@ fkmeans_raw <- function(Ytilde, x,
 
   structure(list(cluster = res$cluster, centers.Ytilde = centers.Ytilde,
                  totss = res$totss, withinss = res$withinss, tot.withinss = res$tot.withinss,
-                 betweenss = res$betweenss, size = res$size, iter = res$iter, ifault = res$ifault, alpha0 = NA),
+                 betweenss = res$betweenss, size = res$size, iter = res$iter, ifault = res$ifault),
             class = "fkmeans")
 }
 
@@ -161,7 +161,7 @@ fkmeans_raw <- function(Ytilde, x,
 #'   used in AUC time-synchronizing mapping. If \code{sync_map == "fr"} it
 #'   represent the template function used in FR time-synchronizing mapping.
 #' @export
-fkmeans <- function(Ytilde, x, t, sync_map = c("auc", "fr", "none"), sync_args,
+fkmeans <- function(Ytilde, x, t, sync_map = c("auc", "fr", "none"), sync_args = NULL,
                     alpha_scale = 1, k, itermax = 10, nstart = 1,
                     algorithm = c("Hartigan-Wong", "Lloyd", "Forgy", "MacQueen"),
                     trace = FALSE){

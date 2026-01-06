@@ -52,7 +52,7 @@
 #'   \item{\code{tot.withinsrs}}{Total within-cluster sum of residuals, i.e., \code{sum(withinsrs)}.}
 #'   \item{\code{size}}{The number of functions in each cluster.}
 #'   \item{\code{iter}}{The number of (outer) iterations.}
-#'   \item{\code{alpha0}}{The reference value \eqn{\alpha_0}.}
+#'   \item{\code{alpha0}}{The reference value \eqn{\alpha_0}. This component is not returned when \code{sync_map == "none"}.}
 #'
 #' @references Godichon-Baggioni A. and Surendran S. (2024) \dQuote{A
 #'   penalized criterion for selecting the number of clusters for K-medians,}
@@ -135,7 +135,7 @@ fkmedians_raw <- function(Ytilde, x, k, niter = 20, nstart = 1){
 
   structure(list(cluster = cluster, centers.Ytilde = centers.Ytilde,
                  withinsrs = withinsrs, tot.withinsrs = sum(withinsrs),
-                 size = size, iter = niter, alpha0 = NA),
+                 size = size, iter = niter),
             class = "fkmedians")
 }
 
@@ -143,7 +143,7 @@ fkmedians_raw <- function(Ytilde, x, k, niter = 20, nstart = 1){
 #'
 #' @inheritParams fkmeans
 #' @export
-fkmedians <- function(Ytilde, x, t, sync_map = c("auc", "fr", "none"), sync_args,
+fkmedians <- function(Ytilde, x, t, sync_map = c("auc", "fr", "none"), sync_args = NULL,
                       alpha_scale = 1, k, niter = 20, nstart = 1){
   sync_map <- match.arg(sync_map, c("auc", "fr", "none"))
   if(sync_map == "none"){

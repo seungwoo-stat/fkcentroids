@@ -30,5 +30,5 @@
 #' https://data.seoul.go.kr/dataList/OA-15182/F/1/datasetView.do
 #'
 #' @references Kang S. and Oh H.-S. (2026) "Multiview representation and clustering of
-#' functional data," <i>Unpublished Manuscript</i>.
+#' functional data," \emph{Unpublished Manuscript}.
 NULL

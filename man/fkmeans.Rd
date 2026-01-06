@@ -25,7 +25,7 @@ fkmeans(
   x,
   t,
   sync_map = c("auc", "fr", "none"),
-  sync_args,
+  sync_args = NULL,
   alpha_scale = 1,
   k,
   itermax = 10,
@@ -110,7 +110,7 @@ represent the template function used in FR time-synchronizing mapping.}
 \item{\code{size}}{The number of functions in each cluster.}
 \item{\code{iter}}{The number of (outer) iterations.}
 \item{\code{ifault}}{Indicator of a possible algorithm problem; refer to \code{\link[stats:kmeans]{stats::kmeans()}}.}
-\item{\code{alpha0}}{The reference value \eqn{\alpha_0}.}
+\item{\code{alpha0}}{The reference value \eqn{\alpha_0}. This component is not returned when \code{sync_map == "none"}.}
 
 \code{print()} and \code{fitted()} methods are supported for the
 object of class \code{fkmeans}. \code{fitted.fkmeans()} with \code{method =

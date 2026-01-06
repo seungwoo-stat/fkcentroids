@@ -15,7 +15,7 @@ fkmedians(
   x,
   t,
   sync_map = c("auc", "fr", "none"),
-  sync_args,
+  sync_args = NULL,
   alpha_scale = 1,
   k,
   niter = 20,
@@ -89,7 +89,7 @@ represent the template function used in FR time-synchronizing mapping.}
 \item{\code{tot.withinsrs}}{Total within-cluster sum of residuals, i.e., \code{sum(withinsrs)}.}
 \item{\code{size}}{The number of functions in each cluster.}
 \item{\code{iter}}{The number of (outer) iterations.}
-\item{\code{alpha0}}{The reference value \eqn{\alpha_0}.}
+\item{\code{alpha0}}{The reference value \eqn{\alpha_0}. This component is not returned when \code{sync_map == "none"}.}
 
 \code{print()} and \code{fitted()} methods are supported for the
 object of class \code{fkmedians}. \code{fitted.fkmedians()} with \code{method =
