@@ -36,7 +36,7 @@ are provided.
 <!-- library(fkcentroids) -->
 <!-- ``` -->
 
-You can install the development version (version 0.0.0.9001) of `fkcentroids` via:
+You can install the development version (version 0.0.0.9002) of `fkcentroids` via:
 
 ``` r
 devtools::install_github("seungwoo-stat/fkcentroids")

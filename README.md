@@ -32,7 +32,7 @@ the extracted phase and amplitude components, are provided.
 <!-- library(fkcentroids) -->
 <!-- ``` -->
 
-You can install the development version (version 0.0.0.9001) of
+You can install the development version (version 0.0.0.9002) of
 `fkcentroids` via:
 
 ``` r
@@ -79,7 +79,7 @@ x <- growth$age
 #>      2      1      2      2      2 
 #> 
 #> Within cluster sum of squares by cluster: 
-#> [1] 27.38324 28.68932
+#> [1] 2715.903 2845.881
 #>  (between_SS / total_SS = 35.7 %)
 #> 
 #> Available components: 

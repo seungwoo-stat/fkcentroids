@@ -105,13 +105,13 @@ fkmeans_pre <- function(Xclrv, Y, t, alpha_scale = 1,
   sst.X <- sum((Xclrv - rowMeans(Xclrv))^2 * diff(t))
   sst.Y <- sum((Y - rowMeans(Y))^2 * w.Y)
   alpha0 <- sst.Y / sst.X
-  DATAMAT <- t(rbind(Xclrv * (alpha0 * alpha_scale)^(1/2) * diff(t),
-                     Y * w.Y))
+  DATAMAT <- t(rbind(Xclrv * (alpha0 * alpha_scale)^(1/2) * sqrt(diff(t)),
+                     Y * sqrt(w.Y)))
   algorithm <- match.arg(algorithm, c("Hartigan-Wong", "Lloyd", "Forgy", "MacQueen"))
   res <- stats::kmeans(x = DATAMAT, centers = k, iter.max = itermax,
                 nstart = nstart, algorithm = algorithm, trace = trace)
-  centers.Xclrv <- t(res$centers[,seq_along(diff(t))]) / ((alpha0 * alpha_scale)^(1/2) * diff(t))
-  centers.Y <- t(res$centers[,length(diff(t)) + seq_along(t)]) / w.Y
+  centers.Xclrv <- t(res$centers[,seq_along(diff(t))]) / ((alpha0 * alpha_scale)^(1/2) * sqrt(diff(t)))
+  centers.Y <- t(res$centers[,length(diff(t)) + seq_along(t)]) / sqrt(w.Y)
   dimnames(centers.Xclrv) <- list(dimnames(Xclrv)[[1L]],1L:k)
   dimnames(centers.Y) <- list(dimnames(Y)[[1L]],1L:k)
 
@@ -136,7 +136,7 @@ fkmeans_raw <- function(Ytilde, x,
   algorithm <- match.arg(algorithm, c("Hartigan-Wong", "Lloyd", "Forgy", "MacQueen"))
   res <- stats::kmeans(x = DATAMAT, centers = k, iter.max = itermax,
                        nstart = nstart, algorithm = algorithm, trace = trace)
-  centers.Ytilde <- t(res$centers) / w.Y
+  centers.Ytilde <- t(res$centers) / sqrt(w.Y)
   dimnames(centers.Ytilde) <- list(dimnames(Ytilde)[[1L]],1L:k)
 
   structure(list(cluster = res$cluster, centers.Ytilde = centers.Ytilde,
