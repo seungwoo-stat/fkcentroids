@@ -9,8 +9,9 @@
 #' synchronization, <i>k</i>-means clustering, and <i>k</i>-medians clustering are provided.
 #' Details are in Kang and Oh (2026).
 #'
-#' @references Kang S. and Oh H.-S. (2026) \dQuote{Multiview representation and clustering of
-#' functional data,} \emph{Unpublished Manuscript}.
+#' @references Kang S. and Oh H.-S. (2026) \dQuote{Multiview functional
+#'   clustering using latent representations of phase and amplitude components,}
+#'   \emph{Unpublished Manuscript}.
 #'
 #' @docType package
 #' @name fkcentroids-package

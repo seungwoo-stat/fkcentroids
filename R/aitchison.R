@@ -25,8 +25,9 @@
 #'   \ifelse{html}{(\out{<i>T</i>}--1)\eqn{\times}\out{<i>n</i>}}{\eqn{(T-1)\times n}} matrix of clrv transformed phase components
 #'   evaluated over the intervals defined by the time points \code{t}.
 #'
-#' @references Kang S. and Oh H.-S. (2026) \dQuote{Multiview representation and clustering of
-#' functional data,} \emph{Unpublished Manuscript}.
+#' @references Kang S. and Oh H.-S. (2026) \dQuote{Multiview functional
+#'   clustering using latent representations of phase and amplitude components,}
+#'   \emph{Unpublished Manuscript}.
 #'
 #' @seealso [auc_sync()] and [fr_sync()] for time-synchronizing mappings.
 #'
@@ -121,8 +122,9 @@ plot.Xclrv <- function(x, ...){
 #' @return A \ifelse{html}{\out{<i>T</i>}\eqn{\times}\out{<i>n</i>}}{\eqn{T\times n}} matrix of inverse-clrv transformed phase components
 #'   evaluated at the time points \code{t}.
 #'
-#' @references Kang S. and Oh H.-S. (2026) \dQuote{Multiview representation and clustering of
-#' functional data,} \emph{Unpublished Manuscript}.
+#' @references Kang S. and Oh H.-S. (2026) \dQuote{Multiview functional
+#'   clustering using latent representations of phase and amplitude components,}
+#'   \emph{Unpublished Manuscript}.
 #'
 #' @seealso [X2Xclrv()] for clrv transformation.
 #'

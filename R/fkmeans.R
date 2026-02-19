@@ -72,8 +72,9 @@
 #'   \item{\code{ifault}}{Indicator of a possible algorithm problem; refer to [stats::kmeans()].}
 #'   \item{\code{alpha0}}{The reference value \eqn{\alpha_0}. This component is not returned when \code{sync_map == "none"}.}
 #'
-#' @references Kang S. and Oh H.-S. (2026) \dQuote{Multiview representation and clustering of
-#' functional data,} \emph{Unpublished Manuscript}.
+#' @references Kang S. and Oh H.-S. (2026) \dQuote{Multiview functional
+#'   clustering using latent representations of phase and amplitude components,}
+#'   \emph{Unpublished Manuscript}.
 #'
 #' @seealso [stats::kmeans()] for multivariate \ifelse{html}{\out{<i>k</i>}}{\eqn{k}}-means clustering.
 #'   [fkmedians_pre()] and [fkmedians()] for robust functional \ifelse{html}{\out{<i>k</i>}}{\eqn{k}}-medians

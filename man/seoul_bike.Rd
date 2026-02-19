@@ -35,7 +35,8 @@ value between 0 and 24; and
 to generate a smooth function for each station.
 }
 \references{
-Kang S. and Oh H.-S. (2026) "Multiview representation and clustering of
-functional data," \emph{Unpublished Manuscript}.
+Kang S. and Oh H.-S. (2026) \dQuote{Multiview functional
+clustering using latent representations of phase and amplitude components,}
+\emph{Unpublished Manuscript}.
 }
 \keyword{datasets}

@@ -145,8 +145,9 @@ penalized criterion for selecting the number of clusters for K-medians,}
 \emph{Journal of Computational and Graphical Statistics}, \strong{33}(4),
 1298--1309.
 
-Kang S. and Oh H.-S. (2026) \dQuote{Multiview representation and clustering of
-functional data,} \emph{Unpublished Manuscript}.
+Kang S. and Oh H.-S. (2026) \dQuote{Multiview functional
+clustering using latent representations of phase and amplitude components,}
+\emph{Unpublished Manuscript}.
 }
 \seealso{
 \code{\link[Kmedians:Kmedians]{Kmedians::Kmedians()}} for multivariate \ifelse{html}{\out{<i>k</i>}}{\eqn{k}}-medians clustering.

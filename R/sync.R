@@ -55,8 +55,9 @@
 #'   \item{\code{Y}}{A \ifelse{html}{\out{<i>T</i>}\eqn{\times}\out{<i>n</i>}}{\eqn{T\times n}} matrix of amplitude components
 #'     evaluated at the time points \code{t}.}
 #'
-#' @references Kang S. and Oh H.-S. (2026) \dQuote{Multiview representation and clustering of
-#' functional data,} \emph{Unpublished Manuscript}.
+#' @references Kang S. and Oh H.-S. (2026) \dQuote{Multiview functional
+#'   clustering using latent representations of phase and amplitude components,}
+#'   \emph{Unpublished Manuscript}.
 #'
 #' Liu X. and Müller H.-G. (2004).\dQuote{"Functional convex averaging and
 #' synchronization for time-warped random curve,} \emph{Journal of the American

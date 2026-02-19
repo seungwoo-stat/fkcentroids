@@ -29,6 +29,7 @@
 #' @source Seoul Open Data Plaza :
 #' https://data.seoul.go.kr/dataList/OA-15182/F/1/datasetView.do
 #'
-#' @references Kang S. and Oh H.-S. (2026) "Multiview representation and clustering of
-#' functional data," \emph{Unpublished Manuscript}.
+#' @references Kang S. and Oh H.-S. (2026) \dQuote{Multiview functional
+#'   clustering using latent representations of phase and amplitude components,}
+#'   \emph{Unpublished Manuscript}.
 NULL

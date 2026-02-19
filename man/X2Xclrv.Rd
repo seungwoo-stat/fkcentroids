@@ -58,8 +58,9 @@ plot(X2Xclrv(sync))
 
 }
 \references{
-Kang S. and Oh H.-S. (2026) \dQuote{Multiview representation and clustering of
-functional data,} \emph{Unpublished Manuscript}.
+Kang S. and Oh H.-S. (2026) \dQuote{Multiview functional
+clustering using latent representations of phase and amplitude components,}
+\emph{Unpublished Manuscript}.
 }
 \seealso{
 \code{\link[=auc_sync]{auc_sync()}} and \code{\link[=fr_sync]{fr_sync()}} for time-synchronizing mappings.

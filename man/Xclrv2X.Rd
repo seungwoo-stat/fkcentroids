@@ -45,8 +45,9 @@ range(Xclrv2X(xclrv, t, seoul_bike$x) - sync$X)
 
 }
 \references{
-Kang S. and Oh H.-S. (2026) \dQuote{Multiview representation and clustering of
-functional data,} \emph{Unpublished Manuscript}.
+Kang S. and Oh H.-S. (2026) \dQuote{Multiview functional
+clustering using latent representations of phase and amplitude components,}
+\emph{Unpublished Manuscript}.
 }
 \seealso{
 \code{\link[=X2Xclrv]{X2Xclrv()}} for clrv transformation.

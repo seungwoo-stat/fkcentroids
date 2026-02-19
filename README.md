@@ -32,7 +32,7 @@ the extracted phase and amplitude components, are provided.
 <!-- library(fkcentroids) -->
 <!-- ``` -->
 
-You can install the development version (version 0.0.0.9002) of
+You can install the development version (version 0.0.0.9003) of
 `fkcentroids` via:
 
 ``` r
@@ -138,5 +138,6 @@ Oh (2026).
 
 ## References
 
-Seungwoo Kang and Hee-Seok Oh. Multiview Representation and Clustering
-of Functional Data. *Unpublished Manuscript*, 2026.
+Seungwoo Kang and Hee-Seok Oh. Multiview Functional Clustering Using
+Latent Representations of Phase and Amplitude Components. *Unpublished
+Manuscript*, 2026.

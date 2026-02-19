@@ -160,8 +160,9 @@ fkmeans(seoul_bike$Ytilde[,1:10], seoul_bike$x, t, sync_map = "auc",
 
 }
 \references{
-Kang S. and Oh H.-S. (2026) \dQuote{Multiview representation and clustering of
-functional data,} \emph{Unpublished Manuscript}.
+Kang S. and Oh H.-S. (2026) \dQuote{Multiview functional
+clustering using latent representations of phase and amplitude components,}
+\emph{Unpublished Manuscript}.
 }
 \seealso{
 \code{\link[stats:kmeans]{stats::kmeans()}} for multivariate \ifelse{html}{\out{<i>k</i>}}{\eqn{k}}-means clustering.

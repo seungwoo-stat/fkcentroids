@@ -13,8 +13,9 @@ synchronization, \if{html}{\out{<i>}}k\if{html}{\out{</i>}}-means clustering, an
 Details are in Kang and Oh (2026).
 }
 \references{
-Kang S. and Oh H.-S. (2026) \dQuote{Multiview representation and clustering of
-functional data,} \emph{Unpublished Manuscript}.
+Kang S. and Oh H.-S. (2026) \dQuote{Multiview functional
+clustering using latent representations of phase and amplitude components,}
+\emph{Unpublished Manuscript}.
 }
 \seealso{
 Useful links:

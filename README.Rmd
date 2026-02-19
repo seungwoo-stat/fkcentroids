@@ -36,7 +36,7 @@ are provided.
 <!-- library(fkcentroids) -->
 <!-- ``` -->
 
-You can install the development version (version 0.0.0.9002) of `fkcentroids` via:
+You can install the development version (version 0.0.0.9003) of `fkcentroids` via:
 
 ``` r
 devtools::install_github("seungwoo-stat/fkcentroids")
@@ -71,4 +71,4 @@ Visit [this repo](https://github.com/seungwoo-stat/fkcentroids-paper) for code t
 
 ## References
 
-Seungwoo Kang and Hee-Seok Oh. Multiview Representation and Clustering of Functional Data. *Unpublished Manuscript*, 2026.
+Seungwoo Kang and Hee-Seok Oh. Multiview Functional Clustering Using Latent Representations of Phase and Amplitude Components. *Unpublished Manuscript*, 2026.
