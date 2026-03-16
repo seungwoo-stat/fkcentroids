@@ -1,3 +1,3 @@
-# fkcentroids 0.0.1
+# fkcentroids 0.0.2
 
-* Initial CRAN submission.
+* Changed `\(...) ` syntax to `function(...)`.

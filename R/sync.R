@@ -87,8 +87,8 @@
 #' @export
 auc_sync <- function(Ytilde, x, t, p = 1){
   if(t[1] != 0L || t[length(t)] != 1L) stop("t must be an increasing sequence that starts at zero and end at one")
-  integrate.y <- apply(Ytilde, 2, \(v) sum(diff(x) * (abs(v[-1])^p + abs(v[-nrow(Ytilde)])^p) / 2))
-  sync.y <- apply(Ytilde, 2, \(v) cumsum(diff(x) * (abs(v[-1])^p + abs(v[-nrow(Ytilde)])^p) / 2))
+  integrate.y <- apply(Ytilde, 2, function(v) sum(diff(x) * (abs(v[-1])^p + abs(v[-nrow(Ytilde)])^p) / 2))
+  sync.y <- apply(Ytilde, 2, function(v) cumsum(diff(x) * (abs(v[-1])^p + abs(v[-nrow(Ytilde)])^p) / 2))
   Xinv <- rbind(rep(0, ncol(Ytilde)), (t(t(sync.y) / integrate.y))^(1/p))
   X <- apply(Xinv, 2, function(v) {
     stats::approx(x = v, y = x, xout = t)$y
