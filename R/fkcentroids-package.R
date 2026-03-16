@@ -6,8 +6,8 @@
 #' Cluster functional data using phase and amplitude components of each
 #' function. By weighting phase and amplitude variation differently, clustering
 #' results can be obtained from multiple perspectives. Routines for
-#' synchronization, <i>k</i>-means clustering, and <i>k</i>-medians clustering are provided.
-#' Details are in Kang and Oh (2026).
+#' synchronization, functional <i>k</i>-means clustering, and functional
+#' <i>k</i>-medians clustering are provided. Details are in Kang and Oh (2026).
 #'
 #' @references Kang S. and Oh H.-S. (2026) \dQuote{Multiview functional
 #'   clustering using latent representations of phase and amplitude components,}

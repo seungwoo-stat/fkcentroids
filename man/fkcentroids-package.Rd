@@ -9,8 +9,8 @@
 Cluster functional data using phase and amplitude components of each
 function. By weighting phase and amplitude variation differently, clustering
 results can be obtained from multiple perspectives. Routines for
-synchronization, \if{html}{\out{<i>}}k\if{html}{\out{</i>}}-means clustering, and \if{html}{\out{<i>}}k\if{html}{\out{</i>}}-medians clustering are provided.
-Details are in Kang and Oh (2026).
+synchronization, functional \if{html}{\out{<i>}}k\if{html}{\out{</i>}}-means clustering, and functional
+\if{html}{\out{<i>}}k\if{html}{\out{</i>}}-medians clustering are provided. Details are in Kang and Oh (2026).
 }
 \references{
 Kang S. and Oh H.-S. (2026) \dQuote{Multiview functional

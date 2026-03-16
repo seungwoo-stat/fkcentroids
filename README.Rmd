@@ -29,14 +29,14 @@ are provided.
 
 ## How can I get fkcentroids?
 
-<!-- Version 0.4.0 of this package is available on [CRAN](https://cran.r-project.org/package=fkcentroids): -->
+Version 0.0.1 of this package is available on [CRAN](https://cran.r-project.org/package=fkcentroids):
 
-<!-- ``` r -->
-<!-- install.packages("fkcentroids") -->
-<!-- library(fkcentroids) -->
-<!-- ``` -->
+``` r
+install.packages("fkcentroids")
+library(fkcentroids)
+```
 
-You can install the development version (version 0.0.0.9003) of `fkcentroids` via:
+You can install the development version (currently equivalent to the CRAN version) of `fkcentroids` via:
 
 ``` r
 devtools::install_github("seungwoo-stat/fkcentroids")

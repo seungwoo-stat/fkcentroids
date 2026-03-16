@@ -1,3 +1,3 @@
-# fkcentroids 0.0.0.9000
+# fkcentroids 0.0.1
 
 * Initial CRAN submission.

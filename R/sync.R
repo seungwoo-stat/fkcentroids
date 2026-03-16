@@ -59,7 +59,7 @@
 #'   clustering using latent representations of phase and amplitude components,}
 #'   \emph{Unpublished Manuscript}.
 #'
-#' Liu X. and Müller H.-G. (2004).\dQuote{"Functional convex averaging and
+#' Liu X. and Müller H.-G. (2004).\dQuote{Functional convex averaging and
 #' synchronization for time-warped random curve,} \emph{Journal of the American
 #' Statistical Association}, \strong{99}(467), 687--699.
 #'

@@ -97,7 +97,7 @@ object of class \code{fkmedians}. \code{fitted.fkmedians()} with \code{method =
 \code{method = "classes"} returns a vector of class assignments.
 }
 \description{
-Conducts \ifelse{html}{\out{<i>k</i>}}{\eqn{k}}-medians clustering by jointly considering phase and amplitude
+Conducts functional \ifelse{html}{\out{<i>k</i>}}{\eqn{k}}-medians clustering by jointly considering phase and amplitude
 variation. The relative importance of the two components can be explicitly
 controlled by the user via the multiview parameter \eqn{\alpha}. Optionally,
 \ifelse{html}{\out{<i>k</i>}}{\eqn{k}}-medians clustering can be performed
