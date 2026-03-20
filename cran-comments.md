@@ -1,9 +1,9 @@
-This is a new release. This package is based on our unpublished
+This is a resubmission. This package is based on our unpublished
 manuscript "Multiview Functional Clustering Using Latent Representations of
 Phase and Amplitude Components". When this paper gets published, we will
 immediately add reference and url to the DESCRIPTION file.
 
-From the version 0.0.1, which had a NOTE on the syntax `\(...)`, we changed it to `function(...)`.
+From the version 0.0.2, we reset the par() option in code examples (specifically, an example in 'man/syncftn.Rd').
 
 
 ## R CMD check results

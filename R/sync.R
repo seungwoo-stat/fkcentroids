@@ -76,13 +76,14 @@
 #' t <- seq(0, 1, length.out = 100)
 #' sync <- auc_sync(seoul_bike$Ytilde[,1:10], seoul_bike$x, t)
 #' plot(sync)
-#' par(mfrow = c(1,2))
+#' oldpar <- par(mfrow = c(1,2))
 #' plot(sync, col = 1)
 #'
 #' template <- 5 * dnorm(t, 0.2, 0.1) + 5 * dnorm(t, 0.8, 0.1)
 #' sync <- fr_sync(seoul_bike$Ytilde[,1:10], seoul_bike$x, t, template)
 #' plot(sync, col = 1)
 #' lines(t, template, col = 2)
+#' par(oldpar)
 #'
 #' @export
 auc_sync <- function(Ytilde, x, t, p = 1){

@@ -26,7 +26,7 @@ the extracted phase and amplitude components, are provided.
 
 ## How can I get fkcentroids?
 
-Version 0.0.2 of this package is available on
+Version 0.0.3 of this package is available on
 [CRAN](https://cran.r-project.org/package=fkcentroids):
 
 ``` r
